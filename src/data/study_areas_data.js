@@ -27,6 +27,13 @@ let studyAreas = [
     status: "No seating",
     last_updated: "11:07am",
   },
+  {
+    id: 4,
+    building_name: "Mclaurin",
+    area_name: "Basement - Closet",
+    status: "Lots of seating",
+    last_updated: "03:00am",
+  },
 ];
 
 export default studyAreas;
