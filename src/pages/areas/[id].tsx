@@ -32,7 +32,7 @@ export default function StudyArea(props: any) {
         <p>Last updated: {last_updated}</p>
       </div>
       <h3 className="ext-xl font-medium py-10 text-center">
-        Help update the seating below
+        Update the seating below
       </h3>
       <div className="bg-slate-300 text-center mx-auto p-3">
         <button className="py-5 my-3 w-full bg-white shadow-md">

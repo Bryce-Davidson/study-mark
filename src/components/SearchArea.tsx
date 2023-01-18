@@ -2,22 +2,30 @@ import { useState } from "react";
 import study_areas_data from "@/data/study_areas_data";
 import StudyAreaCard from "./StudyAreaCard";
 import type { StudyAreaProps } from "./StudyAreaCard";
+import Fuse from "fuse.js";
 
-export default function SearchBar(props: { data: StudyAreaProps[] }) {
+const options = {
+  ignoreLocation: true,
+  keys: ["building_name", "area_name"],
+};
+
+const fuse = new Fuse(study_areas_data, options);
+
+export default function SearchArea(props: { data: StudyAreaProps[] }) {
   const [searchInput, setSearchInput] = useState("");
   const [studyAreas, setStudyAreas] = useState(study_areas_data);
 
   const handleChange = (e: any) => {
     e.preventDefault();
     setSearchInput(e.target.value);
+    const results = fuse.search(searchInput).map((res) => {
+      return res.item;
+    });
+    setStudyAreas(results);
   };
 
   const handleSubmit = (e: any) => {
-    setStudyAreas(
-      studyAreas.filter((area) => {
-        return false;
-      })
-    );
+    return;
   };
 
   return (
@@ -26,7 +34,7 @@ export default function SearchBar(props: { data: StudyAreaProps[] }) {
         <input
           className="block w-full px-4 py-2 bg-white border rounded-md focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
           type="search"
-          placeholder="Search here"
+          placeholder="search study spots"
           onChange={handleChange}
           value={searchInput}
         />

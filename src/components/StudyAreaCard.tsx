@@ -1,6 +1,3 @@
-import studyAreas from "@/data/study_areas_data";
-import StudyArea from "@/pages/areas/[id]";
-
 interface StudyAreaProps {
   id: number;
   building_name: string;
