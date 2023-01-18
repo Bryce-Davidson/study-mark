@@ -1,21 +1,21 @@
 import { supabase } from "@/lib/supaBaseClient";
 
-function Page({ countries }: any) {
+function Page({ study_areas }: any) {
   return (
     <ul>
-      {countries.map((country: any) => (
-        <li key={country.id}>{country.name}</li>
-      ))}
+      {study_areas.map((study_area: any) => {
+        <li>{study_area.building_name}</li>;
+      })}
     </ul>
   );
 }
 
 export async function getServerSideProps() {
-  let { data } = await supabase.from("countries").select();
+  let { data } = await supabase.from("study-areas").select();
 
   return {
     props: {
-      countries: data,
+      study_areas: data,
     },
   };
 }
