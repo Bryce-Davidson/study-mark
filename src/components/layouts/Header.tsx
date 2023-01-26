@@ -1,9 +1,12 @@
 import Link from "next/link";
 import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useRouter } from "next/router";
 
 export default function Header() {
   const supabaseClient = useSupabaseClient();
   const user = useUser();
+  const router = useRouter();
+
   return (
     <header className="flex-col justify-between">
       <div className="flex">
@@ -15,12 +18,15 @@ export default function Header() {
           {user ? (
             <button
               className="bg-slate-200 p-4 mr-5 rounded-md"
-              onClick={() => supabaseClient.auth.signOut()}
+              onClick={() => {
+                router.push("/");
+                supabaseClient.auth.signOut();
+              }}
             >
               Sign out
             </button>
           ) : (
-            <Link className="bg-slate-200 p-4 mr-5 rounded-md" href="/login">
+            <Link className="bg-slate-200 p-4 mr-5 rounded-md" href="/profile">
               Login/Signup
             </Link>
           )}

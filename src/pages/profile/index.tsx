@@ -12,12 +12,9 @@ const LoginPage = () => {
   const [data, setData] = useState<any | null>();
 
   //   useEffect(() => {
-  //     async function loadData() {
-  //       const { data } = await supabaseClient.from("test").select("*");
-  //       setData(data);
+  //     if (user) {
+  //       router.push("/");
   //     }
-  //     // Only run query once user is logged in.
-  //     if (user) loadData();
   //   }, [user]);
 
   if (!user)
@@ -43,22 +40,9 @@ const LoginPage = () => {
     );
 
   return (
-    <>
-      <button onClick={() => supabaseClient.auth.signOut()}>Sign out</button>
-      <p>user:</p>
-      <pre>{JSON.stringify(user, null, 2)}</pre>
-      <p>client-side data fetching with RLS</p>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
-      <button
-        className="bg-slate-500"
-        onClick={async () => {
-          await supabaseClient.auth.signOut();
-          router.push("/login");
-        }}
-      >
-        Logout
-      </button>
-    </>
+    <Layout>
+      <div>Profile page</div>
+    </Layout>
   );
 };
 
