@@ -4,7 +4,7 @@ import { supabase } from "@/lib/supaBaseClient";
 export default function Home() {
   return (
     <Layout>
-      <div></div>
+      <div>Sessions</div>
     </Layout>
   );
 }
