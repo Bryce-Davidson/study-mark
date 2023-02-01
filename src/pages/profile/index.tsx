@@ -7,15 +7,8 @@ import { useEffect, useState } from "react";
 // I made another change
 const LoginPage = () => {
   const supabaseClient = useSupabaseClient();
-  const router = useRouter();
   const user = useUser();
   const [data, setData] = useState<any | null>();
-
-  //   useEffect(() => {
-  //     if (user) {
-  //       router.push("/");
-  //     }
-  //   }, [user]);
 
   if (!user)
     return (

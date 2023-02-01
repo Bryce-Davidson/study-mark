@@ -14,11 +14,6 @@ interface StudySessionRow {
 }
 
 export default function Home() {
-  const router = useRouter();
-  const user = useUser();
-  if (!user) {
-    router.push("/profile");
-  }
   //   let [session, setSession] = useState<null | StudySessionRow>();
 
   //   async function handlePostSession(user_id: undefined | string) {
