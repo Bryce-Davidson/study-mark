@@ -41,7 +41,7 @@ export default function StatusUpdateButton() {
   return (
     <div className="flex flex-col items-center gap-5 justify-center mt-10">
       <input
-        className="timepicker border-2 rounded-lg text-lg w-full py-3"
+        className="timepicker border-2 text-lg w-full py-2"
         onChange={handleExpiresAtchange}
         value={expiresAt}
         type="time"
