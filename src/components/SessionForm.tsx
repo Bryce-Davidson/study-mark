@@ -11,8 +11,6 @@ interface NewStudySession {
 }
 
 export default function StatusUpdateButton() {
-  const router = useRouter();
-  const user = useUser();
   const [expiresAt, setExpiresAt] = useState<any>("");
   const [session, setSession] = useState<NewStudySession>({
     study_area_id: "",
