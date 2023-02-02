@@ -20,7 +20,6 @@ export interface StudySessionProps {
 }
 
 export default function Sessions({ data }: { data: StudySessionProps[] }) {
-  console.log(data);
   return (
     <Layout>
       {data.map((session: StudySessionProps) => {
@@ -38,7 +37,7 @@ export async function getServerSideProps(context: any) {
       class,
       available_seats,
       created_at,
-      duration,
+      expires_at,
       Profile:profile_id(
           id
       ),

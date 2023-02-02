@@ -1,14 +1,11 @@
 import Layout from "@/components/layouts/Layout";
-import { useRouter } from "next/router";
 import { Auth, ThemeSupa } from "@supabase/auth-ui-react";
 import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
-import { useEffect, useState } from "react";
 
 // I made another change
-const LoginPage = () => {
+const ProfilePage = () => {
   const supabaseClient = useSupabaseClient();
   const user = useUser();
-  const [data, setData] = useState<any | null>();
 
   if (!user)
     return (
@@ -39,4 +36,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default ProfilePage;

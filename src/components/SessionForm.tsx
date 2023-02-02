@@ -1,29 +1,45 @@
 import React, { useState } from "react";
+import Router, { useRouter } from "next/router";
+import { useUser } from "@supabase/auth-helpers-react";
+
+interface NewStudySession {
+  study_area_id: string | undefined;
+  profile_id: string | undefined;
+  class: string | undefined;
+  expires_at: string | undefined;
+  available_seats: number | undefined;
+}
 
 export default function StatusUpdateButton() {
-  const [duration, setDuration] = useState<string>();
+  const router = useRouter();
+  const user = useUser();
+  const [expiresAt, setExpiresAt] = useState<any>("");
+  const [session, setSession] = useState<NewStudySession>({
+    study_area_id: "",
+    profile_id: "",
+    class: "",
+    expires_at: "",
+    available_seats: 0,
+  });
 
-  function handleChangeDuration(event: React.ChangeEvent<HTMLSelectElement>) {
+  const handleExpiresAtchange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     event.preventDefault();
-    setDuration(event.target.value);
-  }
-  function handleSubmit() {
-    return;
-  }
-
+    let date = event.target.valueAsDate?.toISOString();
+    setExpiresAt(event.target.value);
+    setSession({ ...session, expires_at: date });
+    console.log(session);
+  };
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Pick your favorite flavor:
-        <select value={duration} onChange={handleChangeDuration}>
-          <option value="30m">30m</option>
-          <option value="45m">45m</option>
-          <option value="1h">1h</option>
-          <option value="1h15m">1h15m</option>
-          <option value="1h30m">1h30</option>
-        </select>
-      </label>
-      <input type="submit" value="Submit" />
-    </form>
+    <div className="flex justify-center mt-10">
+      <input
+        className="timepicker border-2 rounded-lg text-xl px-20 py-5"
+        onChange={handleExpiresAtchange}
+        value={expiresAt}
+        type="time"
+        id="time-picker"
+      />
+    </div>
   );
 }
