@@ -3,6 +3,7 @@ import type { AppProps } from "next/app";
 import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { SessionContextProvider, Session } from "@supabase/auth-helpers-react";
 import { useState } from "react";
+import "../styles/react-select.css";
 
 export default function App({
   Component,
