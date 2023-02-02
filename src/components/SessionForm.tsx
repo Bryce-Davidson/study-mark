@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import Router, { useRouter } from "next/router";
-import { useUser } from "@supabase/auth-helpers-react";
 
 interface NewStudySession {
   study_area_id: string | undefined;
