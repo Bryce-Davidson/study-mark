@@ -17,7 +17,7 @@ export async function getServerSideProps(context: any) {
     .from("study_sessions")
     .select(
       `id,
-      class,
+      course,
       available_seats,
       created_at,
       expires_at,
