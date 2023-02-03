@@ -2,18 +2,14 @@ import React, { useState } from "react";
 import { Autocomplete, TextField } from "@mui/material";
 import { TimePicker } from "@mui/x-date-pickers";
 import moment from "moment";
-interface NewStudySession {
-  study_area_id: string | undefined;
-  profile_id: string | undefined;
-  class: string | undefined;
-  expires_at: string | undefined;
-  available_seats: number | undefined;
-}
+import courses from "../data/course_ids.json";
+import { createFilterOptions } from "@mui/material";
 
-const options = [
-  { label: "The Godfather", id: 1 },
-  { label: "Pulp Fiction", id: 2 },
-];
+const options = courses.course_ids;
+
+const filterOptions = createFilterOptions({
+  stringify: (option: any) => option.label,
+});
 
 export default function StatusUpdateButton() {
   const [expiresAt, setExpiresAt] = useState<any>(Date.now());
@@ -44,11 +40,20 @@ export default function StatusUpdateButton() {
       <Autocomplete
         className="w-full"
         disablePortal
+        filterOptions={filterOptions}
         id="combo-box-demo"
         options={options}
         sx={{ width: 300 }}
-        renderInput={(params) => <TextField {...params} label="Movie" />}
+        renderInput={(params) => <TextField {...params} label="Course ID" />}
       />
     </div>
   );
+}
+
+interface NewStudySession {
+  study_area_id: string | undefined;
+  profile_id: string | undefined;
+  class: string | undefined;
+  expires_at: string | undefined;
+  available_seats: number | undefined;
 }
