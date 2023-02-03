@@ -3,13 +3,25 @@ import { Autocomplete, TextField } from "@mui/material";
 import { TimePicker } from "@mui/x-date-pickers";
 import moment from "moment";
 import courses from "../data/course_ids.json";
-import { createFilterOptions } from "@mui/material";
+import Fuse from "fuse.js";
 
 const options = courses.course_ids;
 
-const filterOptions = createFilterOptions({
-  stringify: (option: any) => option.label,
-});
+const fuseOptions = {
+  ignoreLocation: true,
+  keys: ["label"],
+};
+const fuse = new Fuse(options, fuseOptions);
+
+const filterOptions = (
+  options: { label: string; id: number }[],
+  { inputValue }: { inputValue: any }
+) => {
+  const results = fuse.search(inputValue).map((res) => {
+    return res.item;
+  });
+  return results;
+};
 
 export default function StatusUpdateButton() {
   const [expiresAt, setExpiresAt] = useState<any>(Date.now());
