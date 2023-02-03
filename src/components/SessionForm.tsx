@@ -44,14 +44,7 @@ export default function StatusUpdateButton() {
 
   return (
     <FormControl className="flex flex-col gap-5 items-center mt-10 w-full">
-      <TimePicker
-        className="w-full"
-        ampmInClock={true}
-        label="Time"
-        value={expiresAt}
-        onChange={handleExpiresAtchange}
-        renderInput={(params) => <TextField {...params} />}
-      />
+      <h1>Pick the class you are studying</h1>
       <Autocomplete
         className="w-full"
         disablePortal
@@ -60,6 +53,31 @@ export default function StatusUpdateButton() {
         options={options}
         sx={{ width: 300 }}
         renderInput={(params) => <TextField {...params} label="Course ID" />}
+      />
+      <h1>Set the time you will be done today</h1>
+      <TimePicker
+        className="w-full"
+        ampmInClock={true}
+        label="Time"
+        value={expiresAt}
+        onChange={handleExpiresAtchange}
+        renderInput={(params) => <TextField {...params} />}
+      />
+      <h1>Pick the location you are studying</h1>
+      <Autocomplete
+        className="w-full"
+        disablePortal
+        filterOptions={filterOptions}
+        id="combo-box-demo"
+        options={options}
+        sx={{ width: 300 }}
+        renderInput={(params) => <TextField {...params} label="Location" />}
+      />
+      <h1>How many seats are available</h1>
+      <TextField
+        className="w-full"
+        inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+        label={"Seats Available"}
       />
     </FormControl>
     // </div>
