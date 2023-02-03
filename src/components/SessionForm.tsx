@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Autocomplete, TextField } from "@mui/material";
-import { useRef } from "react";
-
+import { TimePicker } from "@mui/x-date-pickers";
+import moment from "moment";
 interface NewStudySession {
   study_area_id: string | undefined;
   profile_id: string | undefined;
@@ -16,8 +16,7 @@ const options = [
 ];
 
 export default function StatusUpdateButton() {
-  const time = useRef<any>();
-  const [expiresAt, setExpiresAt] = useState<any>("");
+  const [expiresAt, setExpiresAt] = useState<any>(Date.now());
   const [session, setSession] = useState<NewStudySession>({
     study_area_id: "",
     profile_id: "",
@@ -26,30 +25,24 @@ export default function StatusUpdateButton() {
     available_seats: 0,
   });
 
-  const handleExpiresAtchange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    event.preventDefault();
-    let date = event.target.valueAsDate?.toISOString();
-    setExpiresAt(event.target.value);
-    setSession({ ...session, expires_at: date });
+  const handleExpiresAtchange = (new_value: any) => {
+    setSession({ ...session, expires_at: moment(new_value).toISOString() });
+    setExpiresAt(new_value);
     console.log(session);
   };
 
-  const handleDateOnFocus = (event: React.FocusEvent<HTMLTimeElement>) => {
-    event.preventDefault();
-    console.log(event);
-  };
-
   return (
-    <div className="timepicker relative mt-10 w-full">
-      <input
-        type="time"
-        ref={time}
-        className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-slate-700 focus:outline-none"
-        placeholder="Select a date"
+    <div className="flex flex-col gap-5 items-center mt-10 w-full">
+      <TimePicker
+        className="w-full"
+        ampmInClock={true}
+        label="Time"
+        value={expiresAt}
+        onChange={handleExpiresAtchange}
+        renderInput={(params) => <TextField {...params} />}
       />
       <Autocomplete
+        className="w-full"
         disablePortal
         id="combo-box-demo"
         options={options}
