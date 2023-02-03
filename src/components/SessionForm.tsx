@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Autocomplete, TextField } from "@mui/material";
+import { Autocomplete, TextField, FormControl } from "@mui/material";
 import { TimePicker } from "@mui/x-date-pickers";
 import moment from "moment";
 import courses from "../data/course_ids.json";
@@ -20,11 +20,14 @@ const filterOptions = (
   const results = fuse.search(inputValue).map((res) => {
     return res.item;
   });
+  if (results.length == 0) {
+    return options;
+  }
   return results;
 };
 
 export default function StatusUpdateButton() {
-  const [expiresAt, setExpiresAt] = useState<any>(Date.now());
+  const [expiresAt, setExpiresAt] = useState<any>(null);
   const [session, setSession] = useState<NewStudySession>({
     study_area_id: "",
     profile_id: "",
@@ -40,7 +43,7 @@ export default function StatusUpdateButton() {
   };
 
   return (
-    <div className="flex flex-col gap-5 items-center mt-10 w-full">
+    <FormControl className="flex flex-col gap-5 items-center mt-10 w-full">
       <TimePicker
         className="w-full"
         ampmInClock={true}
@@ -58,7 +61,8 @@ export default function StatusUpdateButton() {
         sx={{ width: 300 }}
         renderInput={(params) => <TextField {...params} label="Course ID" />}
       />
-    </div>
+    </FormControl>
+    // </div>
   );
 }
 
