@@ -51,7 +51,6 @@ export default function StatusUpdateButton() {
         filterOptions={filterOptions}
         id="combo-box-demo"
         options={options}
-        sx={{ width: 300 }}
         renderInput={(params) => <TextField {...params} label="Course ID" />}
       />
       <h1>Set the time you will be done today</h1>
@@ -70,7 +69,6 @@ export default function StatusUpdateButton() {
         filterOptions={filterOptions}
         id="combo-box-demo"
         options={options}
-        sx={{ width: 300 }}
         renderInput={(params) => <TextField {...params} label="Location" />}
       />
       <h1>How many seats are available</h1>
