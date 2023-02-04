@@ -84,7 +84,6 @@ export default function StatusUpdateButton() {
       />
       <h1>How many seats are available</h1>
       <TextField
-        required={true}
         className="w-full"
         value={session.available_seats}
         onChange={(event) => {
@@ -94,7 +93,7 @@ export default function StatusUpdateButton() {
         label={"Seats Available"}
       />
       <Button
-        className="w-full mt-5 bg-teal-600 focus:bg-teal-600"
+        className="w-full mt-5 bg-teal-600 focus:bg-teal-600 active:bg-teal-300"
         variant="contained"
         onClick={handlePost}
       >
