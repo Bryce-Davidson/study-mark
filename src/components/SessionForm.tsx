@@ -1,14 +1,90 @@
-import React, { useState } from "react";
-import { Autocomplete, TextField, FormControl, Button } from "@mui/material";
-import { TimePicker } from "@mui/x-date-pickers";
-import moment from "moment";
 import courses from "../data/course_ids.json";
 import Fuse from "fuse.js";
-import { useEffect } from "react";
 import { useUser } from "@supabase/auth-helpers-react";
-import { useRouter } from "next/router";
+import { Button, TextField, Autocomplete } from "@mui/material";
+import { object, string } from "yup";
+import { useFormik } from "formik";
 
 const options = courses.course_ids;
+
+const validationSchema = object({
+  email: string().email("Enter a valid email"),
+  password: string().min(
+    8,
+    "Password should be of minimum 8 characters length"
+  ),
+});
+
+export default function StatusUpdateButton() {
+  const user = useUser();
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+      movie: { label: "", id: 0 },
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      alert(JSON.stringify(values, null, 2));
+    },
+  });
+
+  return (
+    <div>
+      <form className="flex flex-col gap-5" onSubmit={formik.handleSubmit}>
+        <Autocomplete
+          options={options}
+          getOptionLabel={(option) => option.label}
+          value={formik.values.movie}
+          isOptionEqualToValue={(option, value) =>
+            option.label === value.label || value.label == ""
+          }
+          onChange={(event, value) => formik.setFieldValue("movie", value)}
+          //   inputValue={formik.values.movie.label}
+          //   onInputChange={formik.handleChange}
+          renderInput={(params) => <TextField {...params} label="Movie" />}
+        />
+        <TextField
+          fullWidth
+          id="email"
+          name="email"
+          label="Email"
+          value={formik.values.email}
+          onChange={formik.handleChange}
+          error={formik.touched.email && Boolean(formik.errors.email)}
+          helperText={formik.touched.email && formik.errors.email}
+        />
+        <TextField
+          fullWidth
+          id="password"
+          name="password"
+          label="Password"
+          type="password"
+          value={formik.values.password}
+          onChange={formik.handleChange}
+          error={formik.touched.password && Boolean(formik.errors.password)}
+          helperText={formik.touched.password && formik.errors.password}
+        />
+        <Button
+          className="bg-blue-600 text-white focus:text-blue-600 hover:text-blue-600"
+          variant="outlined"
+          fullWidth
+          type="submit"
+        >
+          Submit
+        </Button>
+      </form>
+    </div>
+  );
+}
+
+interface NewStudySession {
+  study_area_id: string | undefined;
+  profile_id: string | undefined | null;
+  course: string | undefined;
+  expires_at: string | null | undefined;
+  available_seats: string | undefined;
+}
 
 const fuseOptions = {
   keys: ["label"],
@@ -27,86 +103,3 @@ const filterOptions = (
   }
   return results;
 };
-
-export default function StatusUpdateButton() {
-  const user = useUser();
-  const router = useRouter();
-  const [session, setSession] = useState<NewStudySession>({
-    study_area_id: "",
-    profile_id: user?.id,
-    course: "",
-    expires_at: null,
-    available_seats: "",
-  });
-
-  useEffect(() => {
-    console.log(session);
-  }, [session]);
-
-  function handlePost() {
-    router.push("/sessions");
-  }
-
-  return (
-    <FormControl
-      required={true}
-      className="flex flex-col gap-5 items-center w-full mb-10"
-    >
-      <h1 className="mt-10">Pick the class you are studying</h1>
-      <Autocomplete
-        inputValue={session.course}
-        onInputChange={(_, newInputValue) => {
-          setSession({ ...session, course: newInputValue });
-        }}
-        className="w-full"
-        filterOptions={filterOptions}
-        options={options}
-        renderInput={(params) => <TextField {...params} label="Course ID" />}
-      />
-      <h1>Set the time you will be done today</h1>
-      <TimePicker
-        className="w-full"
-        label="Time"
-        value={session.expires_at}
-        onChange={(time) => {
-          setSession({ ...session, expires_at: moment(time).toISOString() });
-        }}
-        renderInput={(params) => <TextField {...params} />}
-      />
-      <h1>Pick the location you are studying</h1>
-      <Autocomplete
-        className="w-full"
-        disablePortal
-        filterOptions={filterOptions}
-        id="combo-box-demo"
-        options={options}
-        renderInput={(params) => <TextField {...params} label="Location" />}
-      />
-      <h1>How many seats are available</h1>
-      <TextField
-        className="w-full"
-        value={session.available_seats}
-        onChange={(event) => {
-          setSession({ ...session, available_seats: event.target.value });
-        }}
-        inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
-        label={"Seats Available"}
-      />
-      <Button
-        className="w-full mt-5 bg-teal-600 focus:bg-teal-600 active:bg-teal-300"
-        variant="contained"
-        onClick={handlePost}
-      >
-        Post
-      </Button>
-    </FormControl>
-  );
-}
-
-interface NewStudySession {
-  study_area_id: string | undefined;
-  profile_id: string | undefined | null;
-  course: string | undefined;
-  expires_at: string | null | undefined;
-  available_seats: string | undefined;
-}
