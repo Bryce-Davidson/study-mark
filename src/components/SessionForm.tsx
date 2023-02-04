@@ -5,7 +5,7 @@ import moment from "moment";
 import courses from "../data/course_ids.json";
 import Fuse from "fuse.js";
 import { useEffect } from "react";
-import { log } from "console";
+import { useUser } from "@supabase/auth-helpers-react";
 
 const options = courses.course_ids;
 
@@ -28,6 +28,7 @@ const filterOptions = (
 };
 
 export default function StatusUpdateButton() {
+  const user = useUser();
   const [session, setSession] = useState<NewStudySession>({
     study_area_id: "",
     profile_id: "",
@@ -92,7 +93,7 @@ export default function StatusUpdateButton() {
 
 interface NewStudySession {
   study_area_id: string | undefined;
-  profile_id: string | undefined;
+  profile_id: string | undefined | null;
   course: string | undefined;
   expires_at: string | null | undefined;
   available_seats: string | undefined;
