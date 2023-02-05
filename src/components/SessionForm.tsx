@@ -32,11 +32,21 @@ export default function SessionForm({ areas }: { areas: StudyAreaProps[] }) {
       time: null,
       seats: "",
     },
-    validationSchema: validationSchema,
+    validationSchema,
     onSubmit: (values) => {
       alert(JSON.stringify(values, null, 2));
     },
   });
+
+  function areaInput() {
+    if (formik.values.area.building_name.length == 0) {
+      return "";
+    } else {
+      return (
+        formik.values.area.building_name + " - " + formik.values.area.area_name
+      );
+    }
+  }
 
   return (
     <div>
@@ -70,12 +80,13 @@ export default function SessionForm({ areas }: { areas: StudyAreaProps[] }) {
           groupBy={(option) => option.building_name}
           getOptionLabel={(option) => option.area_name}
           value={formik.values.area}
+          inputValue={areaInput()}
           isOptionEqualToValue={(option, value) => option.id === value.id}
           onChange={(event, value) =>
             value
               ? formik.setFieldValue("area", value)
               : formik.setFieldValue("area", {
-                  id: null,
+                  id: 0,
                   building_name: "",
                   area_name: "",
                 })
