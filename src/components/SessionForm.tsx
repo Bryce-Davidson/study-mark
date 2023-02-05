@@ -1,7 +1,7 @@
 import courses from "../data/course_ids.json";
 import { useUser } from "@supabase/auth-helpers-react";
 import { Button, TextField, Autocomplete } from "@mui/material";
-import { object, date } from "yup";
+import { object, date, string } from "yup";
 import { useFormik } from "formik";
 import { TimePicker } from "@mui/x-date-pickers";
 
@@ -10,6 +10,7 @@ const options = courses.course_ids;
 const validationSchema = object({
   course: object(),
   time: date(),
+  seats: string(),
 });
 
 export default function StatusUpdateButton() {
@@ -18,6 +19,7 @@ export default function StatusUpdateButton() {
     initialValues: {
       course: { label: "", id: 0 },
       time: null,
+      seats: "",
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
@@ -52,6 +54,14 @@ export default function StatusUpdateButton() {
             formik.setFieldValue("time", time);
           }}
           renderInput={(params) => <TextField {...params} />}
+        />
+        <TextField
+          label="Number of seats"
+          value={formik.values.seats}
+          onChange={(event) => {
+            formik.setFieldValue("seats", event.target.value);
+          }}
+          inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
         />
         <Button
           className="bg-blue-600 text-white focus:text-blue-600 hover:text-blue-600"
