@@ -24,7 +24,8 @@ const validationSchema = object({
 export default function SessionForm({ areas }: { areas: StudyAreaProps[] }) {
   const user = useUser();
   const router = useRouter();
-  const [timeError, setTimeError] = useState<boolean>(false);
+  const [currentError, setCurrentError] = useState<string | null>(null);
+  const [errorDate, setErrorDate] = useState(false);
 
   const areaOptions = areas.map((area) => ({
     id: area.id,
@@ -94,8 +95,22 @@ export default function SessionForm({ areas }: { areas: StudyAreaProps[] }) {
           onChange={(time) => {
             formik.setFieldValue("time", time);
           }}
-          onError={(reason) => setTimeError(true)}
-          renderInput={(params) => <TextField {...params} />}
+          onError={(reason, value) => {
+            if (reason) {
+              setCurrentError("Time is already expired");
+              setErrorDate(true);
+            } else {
+              setCurrentError(null);
+              setErrorDate(false);
+            }
+          }}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              error={errorDate}
+              helperText={currentError ?? currentError}
+            />
+          )}
         />
         <h1>Pick the location you are studying</h1>
         <Autocomplete
