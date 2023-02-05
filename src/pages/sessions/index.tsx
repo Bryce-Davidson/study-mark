@@ -52,5 +52,5 @@ export interface StudySessionProps {
   };
   available_seats: number;
   created_at: string;
-  duration: string;
+  expires_at: string;
 }
