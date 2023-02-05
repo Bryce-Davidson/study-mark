@@ -9,7 +9,6 @@ import { StudyAreaProps } from "./StudyAreaCard";
 import { useRouter } from "next/router";
 import { useState, useMemo } from "react";
 import moment from "moment";
-import { TimeValidationError } from "@mui/x-date-pickers/internals/hooks/validation/useTimeValidation";
 
 const options = courses.course_ids;
 
@@ -55,16 +54,6 @@ export default function SessionForm({ areas }: { areas: StudyAreaProps[] }) {
       router.push("/sessions");
     },
   });
-
-  function areaInput() {
-    if (formik.values.area.building_name.length == 0) {
-      return "";
-    } else {
-      return (
-        formik.values.area.building_name + " - " + formik.values.area.area_name
-      );
-    }
-  }
 
   return (
     <div>
@@ -119,7 +108,6 @@ export default function SessionForm({ areas }: { areas: StudyAreaProps[] }) {
           groupBy={(option) => option.building_name}
           getOptionLabel={(option) => option.area_name}
           value={formik.values.area}
-          inputValue={areaInput()}
           isOptionEqualToValue={(option, value) => option.id === value.id}
           onChange={(event, value) =>
             value
