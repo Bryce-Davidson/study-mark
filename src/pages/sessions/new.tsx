@@ -1,11 +1,12 @@
 import Layout from "@/components/layouts/Layout";
 import SessionForm from "@/components/SessionForm";
 import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
+import type { StudyAreaProps } from "@/components/StudyAreaCard";
 
-export default function Home() {
+export default function New({ data }: { data: StudyAreaProps[] }) {
   return (
     <Layout>
-      <SessionForm />
+      <SessionForm areas={data} />
     </Layout>
   );
 }
@@ -26,7 +27,12 @@ export const getServerSideProps = async (ctx: any) => {
       },
     };
 
+  let { data } = await supabase
+    .from("study_areas")
+    .select()
+    .order("id", { ascending: true });
+
   return {
-    props: {},
+    props: { data },
   };
 };

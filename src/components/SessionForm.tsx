@@ -1,9 +1,11 @@
 import courses from "../data/course_ids.json";
+import { supabase } from "@/lib/supaBaseClient";
 import { useUser } from "@supabase/auth-helpers-react";
 import { Button, TextField, Autocomplete } from "@mui/material";
 import { object, date, string } from "yup";
 import { useFormik } from "formik";
 import { TimePicker } from "@mui/x-date-pickers";
+import { StudyAreaProps } from "./StudyAreaCard";
 
 const options = courses.course_ids;
 
@@ -13,13 +15,15 @@ const validationSchema = object({
   seats: string(),
 });
 
-export default function StatusUpdateButton() {
+export default function SessionForm({ areas }: { areas: StudyAreaProps[] }) {
   const user = useUser();
+  console.log(areas);
   const formik = useFormik({
     initialValues: {
       course: { label: "", id: 0 },
       time: null,
       seats: "",
+      user: user?.id,
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
@@ -74,12 +78,4 @@ export default function StatusUpdateButton() {
       </form>
     </div>
   );
-}
-
-interface NewStudySession {
-  study_area_id: string | undefined;
-  profile_id: string | undefined | null;
-  course: string | undefined;
-  expires_at: string | null | undefined;
-  available_seats: string | undefined;
 }

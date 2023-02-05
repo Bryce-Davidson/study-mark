@@ -5,6 +5,7 @@ import { supabase } from "@/lib/supaBaseClient";
 import Link from "next/link";
 
 export default function Home({ data }: { data: StudyAreaProps[] }) {
+  console.log(data);
   return (
     <Layout>
       <div className="flex flex-col justify-center items-center gap-4 mt-5">
