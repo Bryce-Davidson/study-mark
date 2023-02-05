@@ -17,13 +17,20 @@ const validationSchema = object({
 
 export default function SessionForm({ areas }: { areas: StudyAreaProps[] }) {
   const user = useUser();
-  console.log(areas);
+
+  const areaOptions = areas.map((area) => ({
+    id: area.id,
+    building_name: area.building_name,
+    area_name: area.area_name,
+  }));
+
   const formik = useFormik({
     initialValues: {
+      user: user?.id,
       course: { label: "", id: 0 },
+      area: { id: 0, building_name: "", area_name: "" },
       time: null,
       seats: "",
-      user: user?.id,
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
@@ -47,17 +54,33 @@ export default function SessionForm({ areas }: { areas: StudyAreaProps[] }) {
               ? formik.setFieldValue("course", value)
               : formik.setFieldValue("course", { label: "", id: 0 })
           }
-          inputValue={formik.values.course.label}
           renderInput={(params) => <TextField {...params} label="Course" />}
         />
         <TimePicker
           className="w-full"
-          label="Time"
+          label="Time Ending"
           value={formik.values.time}
           onChange={(time) => {
             formik.setFieldValue("time", time);
           }}
           renderInput={(params) => <TextField {...params} />}
+        />
+        <Autocomplete
+          options={areaOptions}
+          groupBy={(option) => option.building_name}
+          getOptionLabel={(option) => option.area_name}
+          value={formik.values.area}
+          isOptionEqualToValue={(option, value) => option.id === value.id}
+          onChange={(event, value) =>
+            value
+              ? formik.setFieldValue("area", value)
+              : formik.setFieldValue("area", {
+                  id: null,
+                  building_name: "",
+                  area_name: "",
+                })
+          }
+          renderInput={(params) => <TextField {...params} label="Location" />}
         />
         <TextField
           label="Number of seats"
