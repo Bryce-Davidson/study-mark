@@ -1,7 +1,7 @@
 import courses from "../data/course_ids.json";
 import { useUser } from "@supabase/auth-helpers-react";
 import { Button, TextField, Autocomplete } from "@mui/material";
-import { object, string } from "yup";
+import { object, date } from "yup";
 import { useFormik } from "formik";
 import { TimePicker } from "@mui/x-date-pickers";
 
@@ -9,6 +9,7 @@ const options = courses.course_ids;
 
 const validationSchema = object({
   course: object(),
+  time: date(),
 });
 
 export default function StatusUpdateButton() {
