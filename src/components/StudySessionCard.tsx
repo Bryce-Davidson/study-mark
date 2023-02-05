@@ -18,7 +18,7 @@ export default function StudySessionCard({
         <p>Seats: {session.available_seats}</p>
       </div>
       <Link href={"/sessions/"} className="bg-white h-1/2 mr-2 p-2 rounded-lg">
-        View Details
+        View
       </Link>
     </div>
   );

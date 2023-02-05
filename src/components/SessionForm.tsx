@@ -86,7 +86,7 @@ export default function SessionForm({ areas }: { areas: StudyAreaProps[] }) {
           }}
           onError={(reason, value) => {
             if (reason) {
-              setCurrentError("Time is already expired");
+              setCurrentError("Time is already passed");
               setErrorDate(true);
             } else {
               setCurrentError(null);
@@ -134,7 +134,7 @@ export default function SessionForm({ areas }: { areas: StudyAreaProps[] }) {
         />
         <Button
           className="bg-blue-600 text-white focus:text-blue-600 hover:text-blue-600"
-          variant="outlined"
+          variant="contained"
           fullWidth
           type="submit"
         >
