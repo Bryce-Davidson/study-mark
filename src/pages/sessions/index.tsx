@@ -13,7 +13,7 @@ export default function Sessions({ data }: { data: StudySessionProps[] }) {
 }
 
 export async function getServerSideProps(context: any) {
-  let { data } = await supabase
+  let { data, error } = await supabase
     .from("study_sessions")
     .select(
       `id,
@@ -30,7 +30,11 @@ export async function getServerSideProps(context: any) {
           area_name
       )`
     )
-    .order("id", { ascending: true });
+    .order("created_at", { ascending: false })
+    .gt("expires_at", new Date().toISOString());
+  if (error) {
+    console.log(error);
+  }
 
   return {
     props: {

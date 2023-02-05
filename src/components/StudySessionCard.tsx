@@ -14,7 +14,7 @@ export default function StudySessionCard({
         <h4>{session.StudyArea.building_name}</h4>
         <h4>{session.StudyArea.area_name}</h4>
         <p>Posted: {formatDate(session.created_at)}</p>
-        <p>Duration: {formatDate(session.expires_at)}</p>
+        <p>Until: {formatDate(session.expires_at)}</p>
         <p>Seats: {session.available_seats}</p>
       </div>
       <Link href={"/sessions/"} className="bg-white h-1/2 mr-2 p-2 rounded-lg">

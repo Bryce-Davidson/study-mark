@@ -7,18 +7,24 @@ import { useFormik } from "formik";
 import { TimePicker } from "@mui/x-date-pickers";
 import { StudyAreaProps } from "./StudyAreaCard";
 import { useRouter } from "next/router";
+import { useState, useMemo } from "react";
+import moment from "moment";
+import { TimeValidationError } from "@mui/x-date-pickers/internals/hooks/validation/useTimeValidation";
 
 const options = courses.course_ids;
 
 const validationSchema = object({
-  course: object(),
-  time: date(),
-  seats: string(),
+  course: object().required("Select your course"),
+  time: date().required("Select the time you will finish studying"),
+  seats: string()
+    .max(1, "Maximum 9 seats")
+    .required("Add the number of seats available"),
 });
 
 export default function SessionForm({ areas }: { areas: StudyAreaProps[] }) {
   const user = useUser();
   const router = useRouter();
+  const [timeError, setTimeError] = useState<boolean>(false);
 
   const areaOptions = areas.map((area) => ({
     id: area.id,
@@ -81,12 +87,14 @@ export default function SessionForm({ areas }: { areas: StudyAreaProps[] }) {
         />
         <h1>Set the time you will be done today</h1>
         <TimePicker
+          minTime={moment()}
           className="w-full"
           label="Time Ending"
           value={formik.values.time}
           onChange={(time) => {
             formik.setFieldValue("time", time);
           }}
+          onError={(reason) => setTimeError(true)}
           renderInput={(params) => <TextField {...params} />}
         />
         <h1>Pick the location you are studying</h1>
@@ -112,12 +120,14 @@ export default function SessionForm({ areas }: { areas: StudyAreaProps[] }) {
         <h1>How many seats are available?</h1>
         <TextField
           className="w-full"
+          inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
           label="Number of seats"
           value={formik.values.seats}
           onChange={(event) => {
             formik.setFieldValue("seats", event.target.value);
           }}
-          inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+          error={formik.touched.seats && Boolean(formik.errors.seats)}
+          helperText={formik.touched.seats && formik.errors.seats}
         />
         <Button
           className="bg-blue-600 text-white focus:text-blue-600 hover:text-blue-600"
