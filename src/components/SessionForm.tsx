@@ -132,7 +132,9 @@ export default function SessionForm({ areas }: { areas: StudyAreaProps[] }) {
             formik.setFieldValue("seats", event.target.value);
           }}
           error={formik.touched.seats && Boolean(formik.errors.seats)}
-          helperText={formik.touched.seats && formik.errors.seats}
+          //   error={Boolean(formik.errors.seats)}
+          //   helperText={formik.touched.seats && formik.errors.seats}
+          helperText={formik.errors.seats}
         />
         <Button variant="outlined" fullWidth type="submit">
           Post
