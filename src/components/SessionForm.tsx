@@ -23,11 +23,9 @@ export default function SessionForm({ areas }: { areas: StudyAreaProps[] }) {
     time: date()
       .nullable()
       .min(moment().local(), "Time has already expired. Select AM/PM")
+      .typeError("Invalid time format")
       .required("Required"),
-    location: object()
-      .nullable()
-      .typeError("Invalid date")
-      .required("Required"),
+    location: object().nullable().required("Required"),
     seats: string().max(1, "Max seats 9").required("Required"),
   });
 
@@ -98,7 +96,7 @@ export default function SessionForm({ areas }: { areas: StudyAreaProps[] }) {
           onError={(reason, value) => {
             if (reason) {
               setErrorDate(true);
-              setCurrentError("Time is already expired");
+              setCurrentError("Invalid time format");
             } else {
               setErrorDate(false);
               setCurrentError("");
@@ -108,11 +106,16 @@ export default function SessionForm({ areas }: { areas: StudyAreaProps[] }) {
             <TextField
               {...params}
               label="Time"
+              onChange={() => {
+                formik.validateField("time");
+              }}
               error={
                 formik.touched.time &&
                 (errorDate || Boolean(formik.errors.time))
               }
-              helperText={formik.errors.time ?? currentError}
+              helperText={
+                (formik.touched.time && formik.errors.time) ?? currentError
+              }
             />
           )}
         />
