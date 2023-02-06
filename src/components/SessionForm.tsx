@@ -88,7 +88,7 @@ export default function SessionForm({ areas }: { areas: StudyAreaProps[] }) {
         <TimePicker
           className="w-full"
           label="Time Ending"
-          minTime={moment()}
+          minTime={moment().local()}
           value={formik.values.time}
           onChange={(time) => {
             formik.setFieldValue("time", time);
