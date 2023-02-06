@@ -7,19 +7,18 @@ import { useFormik } from "formik";
 import { TimePicker } from "@mui/x-date-pickers";
 import { StudyAreaProps } from "./StudyAreaCard";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
 
 const options = courses.course_ids;
-
-const validationSchema = object({
-  course: object().nullable().required("Required"),
-  location: object().nullable().required("Required"),
-  seats: string().nullable().max(2, "Max seats 9").required("Required"),
-});
 
 export default function SessionForm({ areas }: { areas: StudyAreaProps[] }) {
   const user = useUser();
   const router = useRouter();
+
+  const validationSchema = object({
+    course: object().nullable().required("Required"),
+    location: object().nullable().required("Required"),
+    seats: string().max(1, "Max seats 9").required("Required"),
+  });
 
   const areaOptions = areas.map((area) => ({
     id: String(area.id),
