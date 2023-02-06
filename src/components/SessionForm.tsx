@@ -20,7 +20,10 @@ export default function SessionForm({ areas }: { areas: StudyAreaProps[] }) {
 
   const validationSchema = object({
     course: object().nullable().required("Required"),
-    time: date().nullable().required("Required"),
+    time: date()
+      .nullable()
+      .min(moment().local(), "Time has already expired. Select AM/PM")
+      .required("Required"),
     location: object()
       .nullable()
       .typeError("Invalid date")
@@ -88,7 +91,6 @@ export default function SessionForm({ areas }: { areas: StudyAreaProps[] }) {
         <TimePicker
           className="w-full"
           label="Time Ending"
-          minTime={moment().local()}
           value={formik.values.time}
           onChange={(time) => {
             formik.setFieldValue("time", time);
