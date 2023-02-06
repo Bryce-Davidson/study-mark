@@ -45,7 +45,7 @@ export default function SessionForm({ areas }: { areas: StudyAreaProps[] }) {
     onSubmit: async (values) => {
       const { error } = await supabase.from("study_sessions").insert({
         profile_id: user?.id,
-        study_area_id: values.location.id,
+        study_area_id: values?.location,
         expires_at: values.time,
         available_seats: Number(values.seats),
         course: values.course,
@@ -104,7 +104,11 @@ export default function SessionForm({ areas }: { areas: StudyAreaProps[] }) {
           renderInput={(params) => (
             <TextField
               {...params}
-              error={errorDate || Boolean(formik.errors.time)}
+              label="Time"
+              error={
+                formik.touched.time &&
+                (errorDate || Boolean(formik.errors.time))
+              }
               helperText={formik.errors.time ?? currentError}
             />
           )}
@@ -118,15 +122,15 @@ export default function SessionForm({ areas }: { areas: StudyAreaProps[] }) {
           getOptionLabel={(option) => (option ? option.area_name : "")}
           value={formik.values.location}
           isOptionEqualToValue={(option, value) => option.id === value.id}
-          onChange={(event, value) => {
-            formik.setFieldValue("location", value);
+          onChange={(event, value: any) => {
+            formik.setFieldValue("location", value?.id);
           }}
           renderInput={(params) => (
             <TextField
               {...params}
               label="Location"
               error={formik.touched.location && Boolean(formik.errors.location)}
-              helperText={formik.touched.location && formik.errors.location}
+              helperText={formik.errors.location}
             />
           )}
         />
@@ -135,7 +139,7 @@ export default function SessionForm({ areas }: { areas: StudyAreaProps[] }) {
           id="seats"
           className="w-full"
           inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
-          label="Number of seats"
+          label="Seats"
           value={formik.values.seats}
           onBlur={() => {
             formik.setTouched({ seats: true }, true);
