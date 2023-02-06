@@ -43,9 +43,10 @@ export default function SessionForm({ areas }: { areas: StudyAreaProps[] }) {
     },
     validationSchema,
     onSubmit: async (values) => {
+      const { id }: any = values.location;
       const { error } = await supabase.from("study_sessions").insert({
         profile_id: user?.id,
-        study_area_id: values?.location,
+        study_area_id: id,
         expires_at: values.time,
         available_seats: Number(values.seats),
         course: values.course,
@@ -123,7 +124,7 @@ export default function SessionForm({ areas }: { areas: StudyAreaProps[] }) {
           value={formik.values.location}
           isOptionEqualToValue={(option, value) => option.id === value.id}
           onChange={(event, value: any) => {
-            formik.setFieldValue("location", value?.id);
+            formik.setFieldValue("location", value);
           }}
           renderInput={(params) => (
             <TextField
