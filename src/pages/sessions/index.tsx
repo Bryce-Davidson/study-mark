@@ -49,7 +49,6 @@ export async function getServerSideProps(context: any) {
     console.log(error);
   }
 
-  console.log(data);
   return {
     props: {
       data,

@@ -27,6 +27,23 @@ export const getServerSideProps = async (ctx: any) => {
       },
     };
 
+  try {
+    let { data } = await supabase
+      .from("study_sessions")
+      .select()
+      .eq("profile_id", session.user.id);
+    if (data?.length !== 0) {
+      return {
+        redirect: {
+          destination: "/sessions",
+          permanent: false,
+        },
+      };
+    }
+  } catch (e) {
+    console.log(e);
+  }
+
   let { data } = await supabase
     .from("study_areas")
     .select()
