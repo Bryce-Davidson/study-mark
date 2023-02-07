@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import Layout from "@/components/layouts/Layout";
 import { supabase } from "@/lib/supaBaseClient";
 import formatDate from "@/lib/formateDate";
+import classNames from "@/lib/classNames";
 import Link from "next/link";
 
 export default function StudyArea(props: any) {
-  const [studyArea, setStudyArea] = useState(props.data[0]);
+  const [studyArea, setStudyArea] = useState<any>(props.data[0]);
 
   useEffect(() => {
     const channel = supabase
@@ -27,10 +28,10 @@ export default function StudyArea(props: any) {
     };
   }, []);
 
-  async function handleStatusUpdate(status: string) {
+  async function handleStatusUpdate(status_update: string) {
     const { error } = await supabase
       .from("study_areas")
-      .update({ status: status })
+      .update({ status: status_update })
       .eq("id", studyArea.id);
   }
 
@@ -65,19 +66,34 @@ export default function StudyArea(props: any) {
       <div className="bg-slate-300 text-center mx-auto p-3">
         <button
           onClick={() => handleStatusUpdate("No seating")}
-          className="py-5 my-3 w-full bg-white shadow-md"
+          className={classNames(
+            "py-5 my-3 w-full shadow-md",
+            studyArea.status == "No seating"
+              ? "bg-slate-400 text-white"
+              : "bg-white"
+          )}
         >
           No seating
         </button>
         <button
           onClick={() => handleStatusUpdate("Some seating")}
-          className="py-5 my-3 w-full bg-white shadow-md"
+          className={classNames(
+            "py-5 my-3 w-full shadow-md",
+            studyArea.status == "Some seating"
+              ? "bg-slate-400 text-white"
+              : "bg-white"
+          )}
         >
           Some seating
         </button>
         <button
           onClick={() => handleStatusUpdate("Lots of seating")}
-          className="py-5 my-3 w-full bg-white shadow-md"
+          className={classNames(
+            "py-5 my-3 w-full shadow-md",
+            studyArea.status == "Lots of seating"
+              ? "bg-slate-400 text-white"
+              : "bg-white"
+          )}
         >
           Lots of seating
         </button>
