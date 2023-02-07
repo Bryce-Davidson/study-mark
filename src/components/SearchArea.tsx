@@ -2,6 +2,7 @@ import { useState } from "react";
 import StudyAreaCard from "./StudyAreaCard";
 import Fuse from "fuse.js";
 import type { StudyAreaProps } from "./StudyAreaCard";
+import { dividerClasses } from "@mui/material";
 
 const options = {
   ignoreLocation: true,
@@ -21,7 +22,11 @@ export default function SearchArea(props: any) {
     const results = fuse.search(searchInput).map((res) => {
       return res.item;
     });
-    setStudyAreas(results);
+    // console.log(results);
+    // if (results.length == 0) {
+    //   return setStudyAreas([]);
+    // }
+    return setStudyAreas(results);
   };
 
   const handleSubmit = (e: any) => {
@@ -48,9 +53,13 @@ export default function SearchArea(props: any) {
       </form>
       <h2 className="text-2xl mx-auto text-center">Least Busy Spots</h2>
       <div>
-        {studyAreas.map((area: StudyAreaProps, index: number) => {
-          return <StudyAreaCard key={index} area={area} />;
-        })}
+        {studyAreas.length > 0 ? (
+          studyAreas.map((area: StudyAreaProps, index: number) => {
+            return <StudyAreaCard key={index} area={area} />;
+          })
+        ) : (
+          <div>No results</div>
+        )}
       </div>
     </div>
   );
