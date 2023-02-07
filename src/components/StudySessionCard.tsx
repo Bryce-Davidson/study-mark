@@ -1,6 +1,6 @@
-import formatDate from "@/lib/formateDate";
 import Link from "next/link";
 import type { StudySessionProps } from "@/pages/sessions";
+import moment from "moment";
 
 export default function StudySessionCard({
   session,
@@ -13,8 +13,8 @@ export default function StudySessionCard({
         <h3>{session.course}</h3>
         <h4>{session.StudyArea.building_name}</h4>
         <h4>{session.StudyArea.area_name}</h4>
-        <p>Posted: {formatDate(session.created_at)}</p>
-        <p>Until: {formatDate(session.expires_at)}</p>
+        <p>Posted: {moment(session.created_at).format("h:mm A")}</p>
+        <p>Until: {moment(session.expires_at).format("h:mm A")}</p>
         <p>Seats: {session.available_seats}</p>
       </div>
       <Link href={"/sessions/"} className="bg-white h-1/2 mr-2 p-2 rounded-lg">

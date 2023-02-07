@@ -49,16 +49,18 @@ export const getServerSideProps = async (ctx: any) => {
   } = await supabase.auth.getSession();
 
   //   console.log(session?.user.id);
-  if (session) {
-    let { data, error } = await supabase
-      .from("study_sessions")
-      .select()
-      .eq("profile_id", session?.user.id);
-    console.log(data, error);
+  if (!session) {
+    return { props: {} };
   }
 
+  let { data, error } = await supabase
+    .from("study_sessions")
+    .select()
+    .eq("profile_id", session?.user.id);
+  console.log(data, error);
+
   return {
-    props: { session },
+    props: { data },
   };
 
   //   return {

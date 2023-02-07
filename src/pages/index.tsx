@@ -24,10 +24,16 @@ export default function Home({ data }: { data: StudyAreaProps[] }) {
 }
 
 export async function getServerSideProps(context: any) {
-  let { data } = await supabase
-    .from("study_areas")
-    .select()
-    .order("id", { ascending: true });
+  //   let { data } = await supabase
+  // .from("study_areas")
+  // .select()
+  // .order("id", { ascending: true });
+
+  const { data, error } = await supabase.rpc("study_areas_ordered_by_seating");
+
+  if (error) {
+    console.log(error);
+  }
 
   return {
     props: {
