@@ -83,7 +83,7 @@ export default function SessionForm({ areas }: { areas: StudyAreaProps[] }) {
               {...params}
               label="Course"
               error={formik.touched.course && Boolean(formik.errors.course)}
-              helperText={formik.touched.course && formik.errors.course}
+              helperText={formik.errors.course}
             />
           )}
         />
@@ -111,13 +111,8 @@ export default function SessionForm({ areas }: { areas: StudyAreaProps[] }) {
               onChange={() => {
                 formik.validateField("time");
               }}
-              error={
-                formik.touched.time &&
-                (errorDate || Boolean(formik.errors.time))
-              }
-              helperText={
-                (formik.touched.time && formik.errors.time) ?? currentError
-              }
+              error={Boolean(formik.errors.time) && errorDate}
+              helperText={formik.errors.time ?? currentError}
             />
           )}
         />
