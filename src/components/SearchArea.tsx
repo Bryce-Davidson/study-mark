@@ -2,7 +2,6 @@ import { useState } from "react";
 import StudyAreaCard from "./StudyAreaCard";
 import Fuse from "fuse.js";
 import type { StudyAreaProps } from "./StudyAreaCard";
-import { dividerClasses } from "@mui/material";
 
 const options = {
   ignoreLocation: true,
