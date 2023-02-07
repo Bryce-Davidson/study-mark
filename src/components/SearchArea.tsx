@@ -19,13 +19,13 @@ export default function SearchArea(props: any) {
   const handleChange = (e: any) => {
     e.preventDefault();
     setSearchInput(e.target.value);
+    console.log(searchInput);
+    if (searchInput.length == 0) {
+      return setStudyAreas(study_data);
+    }
     const results = fuse.search(searchInput).map((res) => {
       return res.item;
     });
-    // console.log(results);
-    // if (results.length == 0) {
-    //   return setStudyAreas([]);
-    // }
     return setStudyAreas(results);
   };
 
@@ -43,6 +43,7 @@ export default function SearchArea(props: any) {
           type="search"
           placeholder="search study spots"
           onChange={handleChange}
+          onKeyUp={handleChange}
           value={searchInput}
         />
         <input

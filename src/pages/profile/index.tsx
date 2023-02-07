@@ -1,9 +1,11 @@
 import Layout from "@/components/layouts/Layout";
 import { Auth, ThemeSupa } from "@supabase/auth-ui-react";
 import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
+import StudySessionCard from "@/components/StudySessionCard";
+import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 
 // I made another change
-const ProfilePage = () => {
+const ProfilePage = ({ session }: { session: any }) => {
   const supabaseClient = useSupabaseClient();
   const user = useUser();
 
@@ -37,3 +39,29 @@ const ProfilePage = () => {
 };
 
 export default ProfilePage;
+
+export const getServerSideProps = async (ctx: any) => {
+  // Create authenticated Supabase Client
+  const supabase = createServerSupabaseClient(ctx);
+  // Check if we have a session
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  //   console.log(session?.user.id);
+  if (session) {
+    let { data, error } = await supabase
+      .from("study_sessions")
+      .select()
+      .eq("profile_id", session?.user.id);
+    console.log(data, error);
+  }
+
+  return {
+    props: { session },
+  };
+
+  //   return {
+  //     props: { session, data },
+  //   };
+};

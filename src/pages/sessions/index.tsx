@@ -1,13 +1,26 @@
 import Layout from "@/components/layouts/Layout";
 import { supabase } from "@/lib/supaBaseClient";
 import StudySessionCard from "@/components/StudySessionCard";
+import Link from "next/link";
 
 export default function Sessions({ data }: { data: StudySessionProps[] }) {
   return (
     <Layout>
-      {data.map((session: StudySessionProps) => {
-        return <StudySessionCard key={session.id} session={session} />;
-      })}
+      {data.length > 0 ? (
+        data.map((session: StudySessionProps) => {
+          return <StudySessionCard key={session.id} session={session} />;
+        })
+      ) : (
+        <div className="flex flex-col items-center gap-5 justify-center mt-10">
+          <p>No sessions posted</p>
+          <Link
+            className="p-5 bg-slate-200 text-center w-2/3 shadow-md"
+            href="/sessions/new"
+          >
+            Post Study Session
+          </Link>
+        </div>
+      )}
     </Layout>
   );
 }
@@ -36,6 +49,7 @@ export async function getServerSideProps(context: any) {
     console.log(error);
   }
 
+  console.log(data);
   return {
     props: {
       data,
@@ -48,7 +62,7 @@ export interface StudySessionProps {
   Profile: {
     id: number;
   };
-  class: string;
+  course: string;
   StudyArea: {
     id: number;
     building_name: string;

@@ -10,7 +10,7 @@ export default function StudySessionCard({
   return (
     <div className="bg-slate-300 my-5 flex justify-between items-center p-3 rounded-md">
       <div>
-        <h3>{session.class}</h3>
+        <h3>{session.course}</h3>
         <h4>{session.StudyArea.building_name}</h4>
         <h4>{session.StudyArea.area_name}</h4>
         <p>Posted: {formatDate(session.created_at)}</p>

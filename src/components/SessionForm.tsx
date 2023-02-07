@@ -45,13 +45,15 @@ export default function SessionForm({ areas }: { areas: StudyAreaProps[] }) {
     validationSchema,
     onSubmit: async (values) => {
       const { id }: any = values.location;
+      const { label }: any = values.course;
       const { error } = await supabase.from("study_sessions").insert({
         profile_id: user?.id,
         study_area_id: id,
         expires_at: values.time,
         available_seats: Number(values.seats),
-        course: values.course,
+        course: label,
       });
+      console.log(values);
       if (error) {
         console.log(error);
       }
