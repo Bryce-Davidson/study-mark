@@ -63,7 +63,7 @@ export default function StudyArea(props: any) {
         </svg>
         <p className="ml-2">Back</p>
       </Link>
-      <div className="bg-slate-300 text-center mx-auto p-3">
+      <div className="bg-slate-300 text-center mx-auto p-3 mb-20">
         <button
           onClick={() => handleStatusUpdate("No seating")}
           className={classNames(
