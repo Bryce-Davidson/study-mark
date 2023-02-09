@@ -31,6 +31,7 @@ export const getServerSideProps = async (ctx: any) => {
     let { data } = await supabase
       .from("study_sessions")
       .select()
+      .gt("expires_at", new Date().toISOString())
       .eq("profile_id", session.user.id);
     if (data?.length !== 0) {
       return {
